@@ -50,3 +50,5 @@ rtl-sdr
 kalibrate-rtl
 ubertooth
 crackle
+libbluetooth-dev
+ffmpeg
