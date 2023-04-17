@@ -6,7 +6,6 @@ autoconf
 libtool 
 pkg-config 
 php
-php-geoip
 php-sqlite3
 php-curl
 php-xml
