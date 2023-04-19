@@ -629,7 +629,7 @@ fi
 
 echo "|+| Reloading some daemons "
 echo -n "--> apache2 "
-systemctl restart apache2
+systemctl restart apache2 > /dev/null 2>&1
 CR=$(systemctl is-active apache2)
 if [[ "$CR" == "active" ]]
 then
