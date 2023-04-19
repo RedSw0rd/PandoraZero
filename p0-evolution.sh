@@ -711,6 +711,10 @@ find /var/lib/pandora-zero/scripts/pandora -type f -name "*.sh" -exec chmod +x {
 #chmod +x /var/lib/pandora-zero/scripts/pandora/system/boot.sh
 echo -e $STATUS_OK
 
+echo -n "|>| Disabling the Windows Manager (GUI) "
+systemctl set-default multi-user.target
+echo -e $STATUS_OK
+
 sleep 3
 echo -n "|>| Enabling the discovery "
 bt-adapter --set Discoverable 1 > /dev/null 2>&1
@@ -730,21 +734,8 @@ fi
 echo "------------------------------------------------------------------------------------------------"
 echo -e "                   \033[0;92mE V O L U T I O N    P R O C E S S    T E R M I N A T E D\033[0;37m"
 echo "------------------------------------------------------------------------------------------------"
-echo "|+|  Evolution terminated. This rpi0 is now a Pandora Zero Box."
-echo ">>>  P0 ID: "
-echo "| |  "
-echo "| |  Connexion Instructions :"
-echo "| |  "
-echo "| |  Via Bluetooth  -> https://172.20.1.1/login.php"
-echo "| |  Via Wire       -> https://<YOUR IP>/login.php"
-echo "| |  "
-echo "| |  Authentification :"
-echo "| |  "
-echo -e "| |  Default User   -> \033[0;92mcommander\033[0;37m"
-echo -e "| |  Default Pass   -> \033[0;92mpandora\033[0;37m"
-echo "| |  "
-echo "| |  Log File :"
-echo ">>>  $LOGFILE"
 echo "| |  "
 echo "|+|  DONE - CODE OVER"
 echo "$(date +"%d/%m/%y %H:%M:%S") PANDORA ZERO - EVOLUTION PROCESS TERMINATED" >> $LOGFILE
+echo "|+|  Sending Reboot command "
+reboot
