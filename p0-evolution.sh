@@ -639,7 +639,7 @@ else
 fi
 
 echo -n "--> hciuart "
-systemctl restart hciuart
+systemctl restart hciuart > /dev/null 2>&1
 CR=$(systemctl is-active hciuart)
 if [[ "$CR" == "active" ]]
 then
@@ -649,7 +649,7 @@ else
 fi
 
 echo -n "--> bluetooth "
-systemctl restart bluetooth
+systemctl restart bluetooth > /dev/null 2>&1
 CR=$(systemctl is-active bluetooth)
 if [[ "$CR" == "active" ]]
 then
@@ -659,7 +659,7 @@ else
 fi
 
 echo -n "--> systemd-networkd "
-systemctl start systemd-networkd
+systemctl start systemd-networkd > /dev/null 2>&1
 CR=$(systemctl is-active systemd-networkd)
 if [[ "$CR" == "active" ]]
 then
@@ -669,7 +669,7 @@ else
 fi
 
 echo -n "--> bt-network "
-systemctl start bt-network
+systemctl start bt-network > /dev/null 2>&1
 CR=$(systemctl is-active bt-network)
 if [[ "$CR" == "active" ]]
 then
@@ -679,7 +679,7 @@ else
 fi
 
 echo -n "--> bt-agent "
-systemctl start bt-agent
+systemctl start bt-agent > /dev/null 2>&1
 CR=$(systemctl is-active bt-agent)
 if [[ "$CR" == "active" ]]
 then
@@ -690,7 +690,7 @@ fi
 
 # NEED TO BE THE LAST (ERROR IF PAN0 NOT READY)
 echo -n "--> dnsmasq "
-systemctl restart dnsmasq
+systemctl restart dnsmasq > /dev/null 2>&1
 CR=$(systemctl is-active dnsmasq)
 if [[ "$CR" == "active" ]]
 then
