@@ -279,7 +279,7 @@ fi
 
 echo -n "|>| Installing python3 modules (long step) "
 echo "$(date +"%d/%m/%y %H:%M:%S") PYTHON MODULES INSTALLATION" >> $LOGFILE
-pip3 install pymetasploit3 >> $LOGFILE 2>&1
+#pip3 install pymetasploit3 >> $LOGFILE 2>&1
 pip3 install -r /var/lib/pandora-zero/git/impacket/requirements.txt >> $LOGFILE 2>&1
 pip3 install -r /var/lib/pandora-zero/git/mitm6/requirements.txt >> $LOGFILE 2>&1
 # requiered by mitm6
@@ -418,9 +418,9 @@ else
         echo -e $STATUS_KO
 fi
 
-echo -n "|>| Modifying /etc/rc.local file "
-cp /etc/rc.local /var/lib/pandora-zero/install/backup/rc.local
-mv /etc/rc.local /etc/rc.local.ORIGINAL
+echo -n "|>| Copying rc.local file "
+#cp /etc/rc.local /var/lib/pandora-zero/install/backup/rc.local
+#mv /etc/rc.local /etc/rc.local.ORIGINAL
 cp /var/lib/pandora-zero/install/init.d/rc.local /etc/rc.local
 if [[ -e "/etc/rc.local" ]]
 then
@@ -433,6 +433,9 @@ echo -n "|>| Modifying /etc/network/interfaces file "
 cp /etc/network/interfaces /var/lib/pandora-zero/install/backup/interfaces
 mv /etc/network/interfaces /etc/network/interfaces.ORIGINAL
 cp /var/lib/pandora-zero/install/interfaces/interfaces /etc/network/interfaces
+cp /var/lib/pandora-zero/install/interfaces/pan0 /etc/network/interfaces.d/
+
+
 if [[ -e "/etc/network/interfaces" ]]
 then
         echo -e $STATUS_OK
