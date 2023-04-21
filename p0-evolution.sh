@@ -715,13 +715,13 @@ find /var/lib/pandora-zero/scripts/pandora -type f -name "*.sh" -exec chmod +x {
 echo -e $STATUS_OK
 
 echo -n "|>| Disabling the Windows Manager (GUI) "
-systemctl set-default multi-user.target
+systemctl set-default multi-user.target > /dev/null 2>&1
 echo -e $STATUS_OK
 
 sleep 3
-echo -n "|>| Enabling the discovery "
-bt-adapter --set Discoverable 1 > /dev/null 2>&1
-echo -e $STATUS_OK
+#echo -n "|>| Enabling the discovery "
+#bt-adapter --set Discoverable 1 > /dev/null 2>&1
+#echo -e $STATUS_OK
 
 echo -n "|>| Cleanning "
 rm /root/pandora-zero-latest.tar.gz
