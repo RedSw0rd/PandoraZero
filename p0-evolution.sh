@@ -477,12 +477,10 @@ else
         echo -e $STATUS_KO
 fi
 
-#echo -n "|>| Modifying /etc/dnsmasq.conf file "
-#cp /etc/dnsmasq.conf /var/lib/pandora-zero/install/backup/dnsmasq.conf
-#mv /etc/dnsmasq.conf /etc/dnsmasq.conf.ORIGINAL
-#cp /var/lib/pandora-zero/install/dnsmasq/dnsmasq.conf /etc/dnsmasq.conf
-
-echo -n "|>| Modifying /etc/dnsmasq.d/ "
+echo -n "|>| Modifying /etc/dnsmasq.conf file "
+cp /etc/dnsmasq.conf /var/lib/pandora-zero/install/backup/dnsmasq.conf
+mv /etc/dnsmasq.conf /etc/dnsmasq.conf.ORIGINAL
+cp /var/lib/pandora-zero/install/dnsmasq/dnsmasq.conf /etc/dnsmasq.conf
 cp /var/lib/pandora-zero/install/dnsmasq/dnsmasq-admin.conf /etc/dnsmasq.d/dnsmasq-admin.conf
 
 #if [[ -e "/etc/dnsmasq.conf" ]]
