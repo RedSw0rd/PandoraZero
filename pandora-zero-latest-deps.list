@@ -51,3 +51,6 @@ ubertooth
 crackle
 libbluetooth-dev
 ffmpeg
+i2c-tools
+libi2c-dev
+python3-smbus
