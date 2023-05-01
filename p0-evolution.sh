@@ -276,6 +276,15 @@ else
         echo -e $STATUS_KO
 fi
 
+echo -n "--> blueborndetection "
+git clone https://github.com/mjancek/BlueborneDetection /var/lib/pandora-zero/git/BlueborneDetection >> $LOGFILE 2>&1
+if [[ -e "/var/lib/pandora-zero/git/BlueborneDetection" ]]
+then
+        echo -e $STATUS_OK
+else
+        echo -e $STATUS_KO
+fi
+
 
 echo -n "|>| Installing python3 modules (long step) "
 echo "$(date +"%d/%m/%y %H:%M:%S") PYTHON MODULES INSTALLATION" >> $LOGFILE
@@ -313,19 +322,10 @@ cd /var/lib/pandora-zero/git/fm_transmitter
 make >> $LOGFILE 2>&1
 echo -e $STATUS_OK
 
-
-#echo -n "|>| Compiling hostapd-mana (long step) "
-#cd /var/lib/pandora-zero/git/hostapd-mana
-#make -C hostapd >> $LOGFILE 2>&1
-#mkdir -p /usr/lib/mana-toolkit
-#cp /var/lib/pandora-zero/git/hostapd-mana/hostapd/hostapd /usr/lib/mana-toolkit/
-#cp /var/lib/pandora-zero/git/hostapd-mana/hostapd/hostapd_cli /usr/lib/mana-toolkit/
-#if [[ -e "/usr/lib/mana-toolkit/hostapd" ]]
-#then
-#        echo -e $STATUS_OK
-#else
-#        echo -e $STATUS_KO
-#fi
+echo -n "|>| Compiling BlueborneDetection "
+cd /var/lib/pandora-zero/git/BlueborneDetection
+gcc detectBlueborne.o -o detectBlueborne -lbluetooth >> $LOGFILE 2>&1
+echo -e $STATUS_OK
 
 echo -n "|>| Compiling doubledirect "
 g++ /var/lib/pandora-zero/src/doubledirect_poc.cpp -o /usr/bin/doubledirect -lcrafter -lpthread >> $LOGFILE 2>&1
@@ -496,6 +496,17 @@ cp /etc/apache2/ports.conf /var/lib/pandora-zero/install/backup/ports.conf
 mv /etc/apache2/ports.conf /etc/apache2/ports.conf.ORIGINAL
 cp /var/lib/pandora-zero/install/apache/ports.conf /etc/apache2/ports.conf
 if [[ -e "/etc/apache2/ports.conf" ]]
+then
+        echo -e $STATUS_OK
+else
+        echo -e $STATUS_KO
+fi
+
+echo -n "|>| Modifying /lib/systemd/system/apache2.service file "
+cp /lib/systemd/system/apache2.service /var/lib/pandora-zero/install/backup/apache2.service
+mv /lib/systemd/system/apache2.service /lib/systemd/system/apache2.service.ORIGINAL
+cp /var/lib/pandora-zero/install/apache/apache2.service /lib/systemd/system/apache2.service
+if [[ -e "/lib/systemd/system/apache2.service" ]]
 then
         echo -e $STATUS_OK
 else
