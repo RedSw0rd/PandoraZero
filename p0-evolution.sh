@@ -409,7 +409,7 @@ else
         echo -e $STATUS_KO
 fi
 
-echo -n "|>| Copying machine-info file"
+echo -n "|>| Copying machine-info file "
 cp /var/lib/pandora-zero/install/bluetooth/machine-info /etc/machine-info
 if [[ -e "/etc/machine-info" ]]
 then
@@ -429,12 +429,26 @@ else
         echo -e $STATUS_KO
 fi
 
+echo -n "|>| Modifying /boot/config.txt file "
+cp /boot/config.txt /var/lib/pandora-zero/install/backup/boot_config.txt
+cp /var/lib/pandora-zero/install/config/sys/boot_config.txt /boot/config.txt
+chmod +x /boot/config.txt
+if [[ -e "/boot/config.txt" ]]
+then
+        echo -e $STATUS_OK
+else
+        echo -e $STATUS_KO
+fi
+
+echo -n "|>| Modifying /etc/modules file "
+echo "i2c-dev" | sudo tee -a /etc/modules
+echo -e $STATUS_OK
+
 echo -n "|>| Modifying /etc/network/interfaces file "
 cp /etc/network/interfaces /var/lib/pandora-zero/install/backup/interfaces
 mv /etc/network/interfaces /etc/network/interfaces.ORIGINAL
 cp /var/lib/pandora-zero/install/interfaces/interfaces /etc/network/interfaces
 cp /var/lib/pandora-zero/install/interfaces/pan0 /etc/network/interfaces.d/
-
 
 if [[ -e "/etc/network/interfaces" ]]
 then
@@ -513,7 +527,7 @@ else
         echo -e $STATUS_KO
 fi
 
-echo -n "|>| Copying Apache VHost file"
+echo -n "|>| Copying Apache VHost file "
 cp /var/lib/pandora-zero/install/apache/pandora.conf /etc/apache2/sites-enabled/pandora.conf
 if [[ -e "/etc/apache2/sites-enabled/pandora.conf" ]]
 then
@@ -536,7 +550,7 @@ else
 fi
 
 # PLACING CRONTAB FILE
-echo -n "|>| Copying crontab file"
+echo -n "|>| Copying crontab file "
 cp /var/lib/pandora-zero/install/crontab/root /var/spool/cron/crontabs/root
 if [[ -e "/var/spool/cron/crontabs/root" ]]
 then
@@ -546,7 +560,7 @@ else
 fi
 
 # PLACING MOTD FILES
-echo -n "|>| Copying motd file"
+echo -n "|>| Copying motd file "
 cp /etc/motd /var/lib/pandora-zero/install/backup/motd
 mv /etc/motd /etc/motd.ORIGINAL
 cp /var/lib/pandora-zero/install/motd/motd /etc/motd
@@ -558,7 +572,7 @@ else
 fi
 
 # PLACING SUDO FILE
-echo -n "|>| Copying sudo file"
+echo -n "|>| Copying sudo file "
 cp /var/lib/pandora-zero/install/sudo/p0-www-root /etc/sudoers.d/p0-www-root
 if [[ -e "/etc/sudoers.d/p0-www-root" ]]
 then
@@ -567,7 +581,17 @@ else
         echo -e $STATUS_KO
 fi
 
-#
+# FIXING Hamster-sidejack path
+echo -n "|>| Fixing Hamster-sidejack path "
+cp -p /usr/bin/ferret-sidejack /usr/lib/hamster-sidejack/ferret
+if [[ -e "/usr/lib/hamster-sidejack/ferret" ]]
+then
+        echo -e $STATUS_OK
+else
+        echo -e $STATUS_KO
+fi
+
+# CHECK ROOT PRIV
 echo -n "|>| Checking if www-data have root privilege via sudo "
 P=$(sudo -u www-data sudo -n id -u 2>/dev/null)
 if [[ "$P" == "0" ]]
@@ -592,6 +616,7 @@ systemctl unmask hostapd >> $LOGFILE 2>&1
 # update-rc.d hostapd enable
 echo -e $STATUS_OK
 
+# APACHE MODULES
 echo "|+| Enabling 5 Apache modules "
 echo -n "--> ssl "
 a2enmod ssl >> $LOGFILE 2>&1
