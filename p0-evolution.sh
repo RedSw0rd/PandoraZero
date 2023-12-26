@@ -201,7 +201,9 @@ else
         exit
 fi
 
-# GIT
+##################################################################
+# GIT CLONING
+##################################################################
 echo "|+| Cloning some GIT "
 echo "$(date +"%d/%m/%y %H:%M:%S") CLONING" >> $LOGFILE
 echo -n "--> Bluepy "
@@ -285,7 +287,9 @@ else
         echo -e $STATUS_KO
 fi
 
-
+##################################################################
+# PYTHON / RUBY 
+##################################################################
 echo -n "|>| Installing python3 modules (long step) "
 echo "$(date +"%d/%m/%y %H:%M:%S") PYTHON MODULES INSTALLATION" >> $LOGFILE
 #pip3 install pymetasploit3 >> $LOGFILE 2>&1
@@ -300,15 +304,17 @@ cd /var/lib/pandora-zero/git/impacket/
 python3 setup.py install >> $LOGFILE 2>&1
 echo -e $STATUS_OK
 
-
 echo -n "|>| Installing ruby gem "
 echo "$(date +"%d/%m/%y %H:%M:%S") RUBY GEMS INSTALLATION" >> $LOGFILE
 gem install msfrpc-client >> $LOGFILE 2>&1
 echo -e $STATUS_OK
 
-
-# TOOLS
+##################################################################
+# COMPILE
+##################################################################
 echo "$(date +"%d/%m/%y %H:%M:%S") COMPILING " >> $LOGFILE
+
+# LIBCRAFTER
 echo -n "|>| Compiling libcrafter (very long step) "
 cd /var/lib/pandora-zero/git/libcrafter/libcrafter
 ./autogen.sh >> $LOGFILE 2>&1
@@ -317,16 +323,19 @@ make install >> $LOGFILE 2>&1
 ldconfig
 echo -e $STATUS_OK
 
+# FM_TRANSMITTER
 echo -n "|>| Compiling fm_transmitter "
 cd /var/lib/pandora-zero/git/fm_transmitter
 make >> $LOGFILE 2>&1
 echo -e $STATUS_OK
 
+# BLUEBORN SCANNER
 echo -n "|>| Compiling BlueborneDetection "
 cd /var/lib/pandora-zero/git/BlueborneDetection
 gcc detectBlueborne.o -o detectBlueborne -lbluetooth >> $LOGFILE 2>&1
 echo -e $STATUS_OK
 
+# DOUBLEDIRECT
 echo -n "|>| Compiling doubledirect "
 g++ /var/lib/pandora-zero/src/doubledirect_poc.cpp -o /usr/bin/doubledirect -lcrafter -lpthread >> $LOGFILE 2>&1
 if [[ -e "/usr/bin/doubledirect" ]]
@@ -337,9 +346,7 @@ else
         echo "|W| Compilation failed ..."
 fi
 
-#
-cd /root
-
+# REST
 echo -n "|>| Compiling reset.c "
 gcc -o /var/lib/pandora-zero/binary/reset /var/lib/pandora-zero/src/reset.c 2>/dev/null
 if [[ -e "/var/lib/pandora-zero/binary/reset" ]]
@@ -350,28 +357,52 @@ else
         echo "|W| Compilation failed ..."
 fi
 
-echo -n "|>| Copying configurations files "
-cp /var/lib/pandora-zero/install/config/apps/* /var/lib/pandora-zero/config/apps/
-cp /var/lib/pandora-zero/install/config/sys/* /var/lib/pandora-zero/config/sys/
-if [[ -e "/var/lib/pandora-zero/config/apps/hostapd-mana.conf" ]]
+
+##################################################################
+# CONFIG FILES
+##################################################################
+#
+cd /root
+
+#echo -n "|>| Copying configurations files "
+#cp /var/lib/pandora-zero/install/config/apps/* /var/lib/pandora-zero/config/apps/
+#cp /var/lib/pandora-zero/install/config/sys/* /var/lib/pandora-zero/config/sys/
+#if [[ -e "/var/lib/pandora-zero/config/apps/hostapd-mana.conf" ]]
+#then
+#        echo -e $STATUS_OK
+#else
+#        echo -e $STATUS_KO
+#        echo "|W| Installation failed ..."
+#fi
+
+# DNSCHEF
+cp /var/lib/pandora-zero/install/dnschef/dnschef.ini /var/lib/pandora-zero/config/
+# DHCLIENT
+cp /var/lib/pandora-zero/install/dhclient/dhclient.conf /var/lib/pandora-zero/config/
+
+# DNSMASQ
+echo -n "|>| Modifying /etc/dnsmasq.conf files "
+cp /etc/dnsmasq.conf /var/lib/pandora-zero/install/backup/dnsmasq.conf
+mv /etc/dnsmasq.conf /etc/dnsmasq.conf.ORIGINAL
+cp /var/lib/pandora-zero/install/dnsmasq/dnsmasq.conf /etc/dnsmasq.conf
+
+echo -n "|>| Copying dnsmasq configuration files "
+cp /var/lib/pandora-zero/install/dnsmasq/dnsmasq-rogueap-dhcp-wlan0.conf /var/lib/pandora-zero/config/
+cp /var/lib/pandora-zero/install/dnsmasq/dnsmasq-rogueap-dhcp-wlan1.conf /var/lib/pandora-zero/config/
+cp /var/lib/pandora-zero/install/dnsmasq/dnsmasq-admin-bluetooth.conf /var/lib/pandora-zero/config/
+cp /var/lib/pandora-zero/install/dnsmasq/dnsmasq-admin-wifi.conf /var/lib/pandora-zero/config/
+# COPYING IN /ETC/DNSMASQ.D
+cp /var/lib/pandora-zero/install/dnsmasq/dnsmasq-admin-bluetooth.conf /etc/dnsmasq.d/
+cp /var/lib/pandora-zero/install/dnsmasq/dnsmasq-admin-wifi.conf /etc/dnsmasq.d/
+
+if [[ -e "/etc/dnsmasq.d/dnsmasq-admin-wifi.conf" ]]
 then
         echo -e $STATUS_OK
 else
         echo -e $STATUS_KO
-        echo "|W| Installation failed ..."
 fi
 
-echo -n "|>| Installing rmtrack "
-cp /var/lib/pandora-zero/install/rmtrack/rmtrack /usr/bin/rmtrack
-if [[ -e "/usr/bin/rmtrack" ]]
-then
-        echo -e $STATUS_OK
-        chmod +x /usr/bin/rmtrack
-else
-        echo -e $STATUS_KO
-        echo "|W| Installation failed ..."
-fi
-
+# HOSTAPD
 echo -n "|>| Installing hostapd files "
 cp /etc/init.d/hostapd /var/lib/pandora-zero/install/backup/hostapd_init
 cp /etc/default/hostapd /var/lib/pandora-zero/install/backup/hostapd_default
@@ -386,6 +417,17 @@ else
         echo -e $STATUS_KO
 fi
 
+echo -n "|>| Copying hostapd configuration files "
+cp /var/lib/pandora-zero/install/hostapd/* /var/lib/pandora-zero/config/
+cp /var/lib/pandora-zero/install/hostapd/hostapd-admin.conf /etc/hostapd/hostapd.conf
+if [[ -e "/etc/hostapd/hostapd.conf" ]]
+then
+        echo -e $STATUS_OK
+else
+        echo -e $STATUS_KO
+fi
+
+# BLUETOOTH PAN
 echo -n "|>| Copying bluetooth files "
 cp /var/lib/pandora-zero/install/systemd/pan0.netdev /etc/systemd/network/pan0.netdev
 cp /var/lib/pandora-zero/install/systemd/pan0.network /etc/systemd/network/pan0.network
@@ -419,8 +461,6 @@ else
 fi
 
 echo -n "|>| Copying rc.local file "
-#cp /etc/rc.local /var/lib/pandora-zero/install/backup/rc.local
-#mv /etc/rc.local /etc/rc.local.ORIGINAL
 cp /var/lib/pandora-zero/install/init.d/rc.local /etc/rc.local
 if [[ -e "/etc/rc.local" ]]
 then
@@ -429,6 +469,19 @@ else
         echo -e $STATUS_KO
 fi
 
+#
+echo -n "|>| Installing rmtrack "
+cp /var/lib/pandora-zero/install/rmtrack/rmtrack /usr/bin/rmtrack
+if [[ -e "/usr/bin/rmtrack" ]]
+then
+        echo -e $STATUS_OK
+        chmod +x /usr/bin/rmtrack
+else
+        echo -e $STATUS_KO
+        echo "|W| Installation failed ..."
+fi
+
+#
 echo -n "|>| Modifying /boot/config.txt file "
 cp /boot/config.txt /var/lib/pandora-zero/install/backup/boot_config.txt
 cp /var/lib/pandora-zero/install/config/sys/boot_config.txt /boot/config.txt
@@ -440,16 +493,18 @@ else
         echo -e $STATUS_KO
 fi
 
+#
 echo -n "|>| Modifying /etc/modules file "
 echo "i2c-dev" | sudo tee -a /etc/modules
 echo -e $STATUS_OK
 
+#
 echo -n "|>| Modifying /etc/network/interfaces file "
 cp /etc/network/interfaces /var/lib/pandora-zero/install/backup/interfaces
 mv /etc/network/interfaces /etc/network/interfaces.ORIGINAL
 cp /var/lib/pandora-zero/install/interfaces/interfaces /etc/network/interfaces
 cp /var/lib/pandora-zero/install/interfaces/pan0 /etc/network/interfaces.d/
-
+cp /var/lib/pandora-zero/install/interfaces/wlan0-admin /etc/network/interfaces.d/
 if [[ -e "/etc/network/interfaces" ]]
 then
         echo -e $STATUS_OK
@@ -457,6 +512,7 @@ else
         echo -e $STATUS_KO
 fi
 
+#
 echo -n "|>| Modifying /etc/hostname file "
 cp /etc/hostname /var/lib/pandora-zero/install/backup/hostname
 mv /etc/hostname /etc/hostname.ORIGINAL
@@ -469,6 +525,7 @@ else
         echo -e $STATUS_KO
 fi
 
+#
 echo -n "|>| Modifying /etc/hosts file "
 cp /etc/hosts /var/lib/pandora-zero/install/backup/hosts
 mv /etc/hosts /etc/hosts.ORIGINAL
@@ -480,6 +537,7 @@ else
         echo -e $STATUS_KO
 fi
 
+#
 echo -n "|>| Modifying /etc/resolv.conf file "
 cp /etc/resolv.conf /var/lib/pandora-zero/install/backup/resolv.conf
 mv /etc/resolv.conf /etc/resolv.conf.ORIGINAL
@@ -491,20 +549,7 @@ else
         echo -e $STATUS_KO
 fi
 
-echo -n "|>| Modifying /etc/dnsmasq.conf file "
-cp /etc/dnsmasq.conf /var/lib/pandora-zero/install/backup/dnsmasq.conf
-mv /etc/dnsmasq.conf /etc/dnsmasq.conf.ORIGINAL
-cp /var/lib/pandora-zero/install/dnsmasq/dnsmasq.conf /etc/dnsmasq.conf
-cp /var/lib/pandora-zero/install/dnsmasq/dnsmasq-admin.conf /etc/dnsmasq.d/dnsmasq-admin.conf
-
-#if [[ -e "/etc/dnsmasq.conf" ]]
-if [[ -e "/etc/dnsmasq.d/dnsmasq-admin.conf" ]]
-then
-        echo -e $STATUS_OK
-else
-        echo -e $STATUS_KO
-fi
-
+# APACHE CONFIG
 echo -n "|>| Modifying /etc/apache2/ports.conf file "
 cp /etc/apache2/ports.conf /var/lib/pandora-zero/install/backup/ports.conf
 mv /etc/apache2/ports.conf /etc/apache2/ports.conf.ORIGINAL
@@ -516,6 +561,18 @@ else
         echo -e $STATUS_KO
 fi
 
+echo -n "|>| Copying Apache ports configuration files "
+cp /var/lib/pandora-zero/install/apache/ports-dnsspoof.conf /var/lib/pandora-zero/config/
+cp /var/lib/pandora-zero/install/apache/port-evilportal.conf /var/lib/pandora-zero/config/
+cp /var/lib/pandora-zero/install/apache/port-rogueap.conf /var/lib/pandora-zero/config/
+if [[ -e "/var/lib/pandora-zero/config/port-rogueap.conf" ]]
+then
+        echo -e $STATUS_OK
+else
+        echo -e $STATUS_KO
+fi
+
+#
 echo -n "|>| Modifying /lib/systemd/system/apache2.service file "
 cp /lib/systemd/system/apache2.service /var/lib/pandora-zero/install/backup/apache2.service
 mv /lib/systemd/system/apache2.service /lib/systemd/system/apache2.service.ORIGINAL
@@ -527,6 +584,7 @@ else
         echo -e $STATUS_KO
 fi
 
+#
 echo -n "|>| Copying Apache VHost file "
 cp /var/lib/pandora-zero/install/apache/pandora.conf /etc/apache2/sites-enabled/pandora.conf
 if [[ -e "/etc/apache2/sites-enabled/pandora.conf" ]]
@@ -534,19 +592,6 @@ then
         echo -e $STATUS_OK
 else
         echo -e $STATUS_KO
-fi
-
-# CERTIFICATS
-echo -n "|>| Generating X.509 certificat "
-# rm /var/lib/pandora/certs/pandora/pdr.pem
-# rm /var/lib/pandora/certs/pandora/pdr.key
-openssl req -new -x509 -days 365 -subj '/C=XX/ST=NULL/L=NULL/O=Redsword Cyber Security/OU=Redsword Cyber Security/CN=www.redsword.net' -nodes -out /var/lib/pandora-zero/certs/pandora/pdr.pem -keyout /var/lib/pandora-zero/certs/pandora/pdr.key > /dev/null 2>&1
-if [ -e "/var/lib/pandora-zero/certs/pandora/pdr.pem" ] && [ -e "/var/lib/pandora-zero/certs/pandora/pdr.key" ]
-then
-        echo -e $STATUS_OK
-else
-        echo -e $STATUS_KO
-        echo "|W| certificats generation failed. Please fix it later"
 fi
 
 # PLACING CRONTAB FILE
@@ -581,6 +626,33 @@ else
         echo -e $STATUS_KO
 fi
 
+# PLACING DNSSPOOF CONFIG FILE
+echo -n "|>| Copying dnsspoof configuration files "
+cp /var/lib/pandora-zero/install/dnsspoof/* /var/lib/pandora-zero/config/
+if [[ -e "/var/lib/pandora-zero/config/dnsspoof-lan.hosts" ]]
+then
+        echo -e $STATUS_OK
+else
+        echo -e $STATUS_KO
+fi
+
+##################################################################
+# PAYLOADS
+##################################################################
+
+
+
+
+
+
+
+
+
+
+
+##################################################################
+# FIXING
+##################################################################
 # FIXING Hamster-sidejack path
 echo -n "|>| Fixing Hamster-sidejack path "
 cp -p /usr/bin/ferret-sidejack /usr/lib/hamster-sidejack/ferret
@@ -591,17 +663,22 @@ else
         echo -e $STATUS_KO
 fi
 
-# CHECK ROOT PRIV
-echo -n "|>| Checking if www-data have root privilege via sudo "
-P=$(sudo -u www-data sudo -n id -u 2>/dev/null)
-if [[ "$P" == "0" ]]
+##################################################################
+# CERTIFICATS
+##################################################################
+echo -n "|>| Generating X.509 certificat "
+openssl req -new -x509 -days 365 -subj '/C=XX/ST=NULL/L=NULL/O=Redsword Cyber Security/OU=Redsword Cyber Security/CN=www.redsword.net' -nodes -out /var/lib/pandora-zero/certs/pandora/pdr.pem -keyout /var/lib/pandora-zero/certs/pandora/pdr.key > /dev/null 2>&1
+if [ -e "/var/lib/pandora-zero/certs/pandora/pdr.pem" ] && [ -e "/var/lib/pandora-zero/certs/pandora/pdr.key" ]
 then
         echo -e $STATUS_OK
 else
         echo -e $STATUS_KO
+        echo "|W| certificats generation failed. Please fix it later"
 fi
 
+##################################################################
 # START AT BOOT
+##################################################################
 echo "$(date +"%d/%m/%y %H:%M:%S") BOOT SERVICES " >> $LOGFILE
 echo -n "|>| Activating some services at boot "
 systemctl enable hciuart >> $LOGFILE 2>&1
@@ -616,7 +693,9 @@ systemctl unmask hostapd >> $LOGFILE 2>&1
 # update-rc.d hostapd enable
 echo -e $STATUS_OK
 
+##################################################################
 # APACHE MODULES
+##################################################################
 echo "|+| Enabling 5 Apache modules "
 echo -n "--> ssl "
 a2enmod ssl >> $LOGFILE 2>&1
@@ -736,10 +815,27 @@ fi
 #        echo -e $STATUS_KO
 #fi
 
+
+##################################################################
+# SQLITE DATABASE
+##################################################################
 echo -n "|>| Installing DB "
 php -f $sql_init_scripts/sqlite-init-global.php
 php -f $sql_init_scripts/sqlite-init-xlist.php
 php -f $sql_init_scripts/sqlite-init-taskman.php
+
+##################################################################
+# MISC
+##################################################################
+# CHECK ROOT PRIV
+echo -n "|>| Checking if www-data have root privilege via sudo "
+P=$(sudo -u www-data sudo -n id -u 2>/dev/null)
+if [[ "$P" == "0" ]]
+then
+        echo -e $STATUS_OK
+else
+        echo -e $STATUS_KO
+fi
 
 echo -n "|>| Setting owner to www-data "
 chown -R www-data: /var/www/pandora-zero
@@ -753,10 +849,10 @@ systemctl set-default multi-user.target > /dev/null 2>&1
 echo -e $STATUS_OK
 
 sleep 3
-#echo -n "|>| Enabling the discovery "
-#bt-adapter --set Discoverable 1 > /dev/null 2>&1
-#echo -e $STATUS_OK
 
+##################################################################
+# CLEANNING
+##################################################################
 echo -n "|>| Cleanning "
 rm /root/pandora-zero-latest.tar.gz
 rm /root/pandora-zero-latest.sum
