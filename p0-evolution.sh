@@ -379,12 +379,15 @@ cd /root
 cp /var/lib/pandora-zero/install/dnschef/dnschef.ini /var/lib/pandora-zero/config/
 # DHCLIENT
 cp /var/lib/pandora-zero/install/dhclient/dhclient.conf /var/lib/pandora-zero/config/
+#
+cp /var/lib/pandora-zero/install/db/wps-pin-db.txt /var/lib/pandora-zero/db/
 
 # DNSMASQ
 echo -n "|>| Modifying /etc/dnsmasq.conf files "
 cp /etc/dnsmasq.conf /var/lib/pandora-zero/install/backup/dnsmasq.conf
 mv /etc/dnsmasq.conf /etc/dnsmasq.conf.ORIGINAL
 cp /var/lib/pandora-zero/install/dnsmasq/dnsmasq.conf /etc/dnsmasq.conf
+echo -e $STATUS_OK
 
 echo -n "|>| Copying dnsmasq configuration files "
 cp /var/lib/pandora-zero/install/dnsmasq/dnsmasq-rogueap-dhcp-wlan0.conf /var/lib/pandora-zero/config/
@@ -484,7 +487,7 @@ fi
 #
 echo -n "|>| Modifying /boot/config.txt file "
 cp /boot/config.txt /var/lib/pandora-zero/install/backup/boot_config.txt
-cp /var/lib/pandora-zero/install/config/sys/boot_config.txt /boot/config.txt
+cp /var/lib/pandora-zero/install/boot/boot_config.txt /boot/config.txt
 chmod +x /boot/config.txt
 if [[ -e "/boot/config.txt" ]]
 then
@@ -562,7 +565,7 @@ else
 fi
 
 echo -n "|>| Copying Apache ports configuration files "
-cp /var/lib/pandora-zero/install/apache/ports-dnsspoof.conf /var/lib/pandora-zero/config/
+cp /var/lib/pandora-zero/install/apache/port-dnsspoof.conf /var/lib/pandora-zero/config/
 cp /var/lib/pandora-zero/install/apache/port-evilportal.conf /var/lib/pandora-zero/config/
 cp /var/lib/pandora-zero/install/apache/port-rogueap.conf /var/lib/pandora-zero/config/
 if [[ -e "/var/lib/pandora-zero/config/port-rogueap.conf" ]]
@@ -819,7 +822,7 @@ fi
 ##################################################################
 # SQLITE DATABASE
 ##################################################################
-echo -n "|>| Installing DB "
+echo -ne "|>| Installing DB "
 php -f $sql_init_scripts/sqlite-init-global.php
 php -f $sql_init_scripts/sqlite-init-xlist.php
 php -f $sql_init_scripts/sqlite-init-taskman.php
