@@ -49,6 +49,7 @@ rtl-sdr
 kalibrate-rtl
 ubertooth
 crackle
+evil-ssdp
 libbluetooth-dev
 ffmpeg
 i2c-tools
