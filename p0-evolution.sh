@@ -110,7 +110,7 @@ then
         exit
 fi
 
-# DOWNLOAD ARCHIVES
+# DOWNLOAD ARCHIVE
 echo "$(date +"%d/%m/%y %H:%M:%S") DOWNLOADING ARCHIVE FILE" >> $LOGFILE
 echo -n "|>| Downloading Pandora Zero Archive "
 wget $PZ_ARCHIVE_URL > /dev/null 2>&1
@@ -346,7 +346,7 @@ else
         echo "|W| Compilation failed ..."
 fi
 
-# REST
+# RESET
 echo -n "|>| Compiling reset.c "
 gcc -o /var/lib/pandora-zero/binary/reset /var/lib/pandora-zero/src/reset.c 2>/dev/null
 if [[ -e "/var/lib/pandora-zero/binary/reset" ]]
@@ -678,6 +678,23 @@ else
         echo -e $STATUS_KO
         echo "|W| certificats generation failed. Please fix it later"
 fi
+
+echo -n "|>| Generating SSH keys "
+rm /var/lib/pandora-zero/certs/localhost/sshkey* > /dev/null 2>&1
+ssh-keygen -t rsa -f /var/lib/pandora-zero/certs/localhost/sshkey -q -N "" -C 'kali@localhost' > /dev/null 2>&1
+mkdir /home/kali/.ssh
+chown kali: /home/kali/.ssh
+cat /var/lib/pandora-zero/certs/localhost/sshkey.pub > /home/kali/.ssh/authorized_keys
+chown kali: /home/kali/.ssh/authorized_keys
+chmod og-wx /home/kali/.ssh/authorized_keys
+if [ -e "/var/lib/pandora-zero/certs/localhost/sshkey" ] && [ -e "/home/kali/.ssh/authorized_keys" ]
+then
+        echo -e $STATUS_OK
+else
+        echo -e $STATUS_KO
+        echo "|W| certificats generation failed. Please fix it later"
+fi
+
 
 ##################################################################
 # START AT BOOT
