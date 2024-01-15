@@ -381,6 +381,8 @@ cp /var/lib/pandora-zero/install/dnschef/dnschef.ini /var/lib/pandora-zero/confi
 cp /var/lib/pandora-zero/install/dhclient/dhclient.conf /var/lib/pandora-zero/config/
 #
 cp /var/lib/pandora-zero/install/db/wps-pin-db.txt /var/lib/pandora-zero/db/
+#
+mkdir /run/dump1090-mutability
 
 # DNSMASQ
 echo -n "|>| Modifying /etc/dnsmasq.conf files "
