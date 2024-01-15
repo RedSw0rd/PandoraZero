@@ -206,45 +206,28 @@ fi
 ##################################################################
 echo "|+| Cloning some GIT "
 echo "$(date +"%d/%m/%y %H:%M:%S") CLONING" >> $LOGFILE
+
+echo -n "--> Airpwn-ng "
+git clone https://github.com/ICSec/airpwn-ng.git /var/lib/pandora-zero/git/airpwn-ng >> $LOGFILE 2>&1
+if [[ -e "/var/lib/pandora-zero/git/airpwn-ng" ]]
+then
+        echo -e $STATUS_OK
+else
+        echo -e $STATUS_KO
+fi
+
+echo -n "--> Blueborndetection "
+git clone https://github.com/mjancek/BlueborneDetection /var/lib/pandora-zero/git/BlueborneDetection >> $LOGFILE 2>&1
+if [[ -e "/var/lib/pandora-zero/git/BlueborneDetection" ]]
+then
+        echo -e $STATUS_OK
+else
+        echo -e $STATUS_KO
+fi
+
 echo -n "--> Bluepy "
 git clone https://github.com/IanHarvey/bluepy.git /var/lib/pandora-zero/git/bluepy >> $LOGFILE 2>&1
 if [[ -e "/var/lib/pandora-zero/git/bluepy" ]]
-then
-        echo -e $STATUS_OK
-else
-        echo -e $STATUS_KO
-fi
-
-echo -n "--> Libcrafter "
-git clone https://github.com/pellegre/libcrafter /var/lib/pandora-zero/git/libcrafter >> $LOGFILE 2>&1
-if [[ -e "/var/lib/pandora-zero/git/libcrafter" ]]
-then
-        echo -e $STATUS_OK
-else
-        echo -e $STATUS_KO
-fi
-
-echo -n "--> impacket "
-git clone https://github.com/SecureAuthCorp/impacket /var/lib/pandora-zero/git/impacket >> $LOGFILE 2>&1
-if [[ -e "/var/lib/pandora-zero/git/impacket" ]]
-then
-        echo -e $STATUS_OK
-else
-        echo -e $STATUS_KO
-fi
-
-echo -n "--> mitm6 "
-git clone https://github.com/fox-it/mitm6 /var/lib/pandora-zero/git/mitm6 >> $LOGFILE 2>&1
-if [[ -e "/var/lib/pandora-zero/git/mitm6" ]]
-then
-        echo -e $STATUS_OK
-else
-        echo -e $STATUS_KO
-fi
-
-echo -n "--> rpitx "
-git clone https://github.com/F5OEO/rpitx /var/lib/pandora-zero/git/rpitx >> $LOGFILE 2>&1
-if [[ -e "/var/lib/pandora-zero/git/rpitx" ]]
 then
         echo -e $STATUS_OK
 else
@@ -260,7 +243,16 @@ else
         echo -e $STATUS_KO
 fi
 
-echo -n "--> jackit "
+echo -n "--> Impacket "
+git clone https://github.com/SecureAuthCorp/impacket /var/lib/pandora-zero/git/impacket >> $LOGFILE 2>&1
+if [[ -e "/var/lib/pandora-zero/git/impacket" ]]
+then
+        echo -e $STATUS_OK
+else
+        echo -e $STATUS_KO
+fi
+
+echo -n "--> Jackit "
 git clone https://github.com/insecurityofthings/jackit /var/lib/pandora-zero/git/jackit >> $LOGFILE 2>&1
 if [[ -e "/var/lib/pandora-zero/git/jackit" ]]
 then
@@ -269,7 +261,43 @@ else
         echo -e $STATUS_KO
 fi
 
-echo -n "--> wpspin "
+echo -n "--> Libcrafter "
+git clone https://github.com/pellegre/libcrafter /var/lib/pandora-zero/git/libcrafter >> $LOGFILE 2>&1
+if [[ -e "/var/lib/pandora-zero/git/libcrafter" ]]
+then
+        echo -e $STATUS_OK
+else
+        echo -e $STATUS_KO
+fi
+
+echo -n "--> Mitm6 "
+git clone https://github.com/fox-it/mitm6 /var/lib/pandora-zero/git/mitm6 >> $LOGFILE 2>&1
+if [[ -e "/var/lib/pandora-zero/git/mitm6" ]]
+then
+        echo -e $STATUS_OK
+else
+        echo -e $STATUS_KO
+fi
+
+echo -n "--> Rpitx "
+git clone https://github.com/F5OEO/rpitx /var/lib/pandora-zero/git/rpitx >> $LOGFILE 2>&1
+if [[ -e "/var/lib/pandora-zero/git/rpitx" ]]
+then
+        echo -e $STATUS_OK
+else
+        echo -e $STATUS_KO
+fi
+
+echo -n "--> Sylkie "
+https://github.com/dlrobertson/sylkie.git /var/lib/pandora-zero/git/sylkie >> $LOGFILE 2>&1
+if [[ -e "/var/lib/pandora-zero/git/sylkie" ]]
+then
+        echo -e $STATUS_OK
+else
+        echo -e $STATUS_KO
+fi
+
+echo -n "--> Wpspin "
 git clone https://github.com/drygdryg/wpspin /var/lib/pandora-zero/git/wpspin >> $LOGFILE 2>&1
 if [[ -e "/var/lib/pandora-zero/git/wpspin" ]]
 then
@@ -278,14 +306,6 @@ else
         echo -e $STATUS_KO
 fi
 
-echo -n "--> blueborndetection "
-git clone https://github.com/mjancek/BlueborneDetection /var/lib/pandora-zero/git/BlueborneDetection >> $LOGFILE 2>&1
-if [[ -e "/var/lib/pandora-zero/git/BlueborneDetection" ]]
-then
-        echo -e $STATUS_OK
-else
-        echo -e $STATUS_KO
-fi
 
 ##################################################################
 # PYTHON / RUBY 
