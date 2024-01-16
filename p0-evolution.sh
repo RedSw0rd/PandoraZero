@@ -298,7 +298,7 @@ else
 fi
 
 echo -n "--> Sylkie "
-https://github.com/dlrobertson/sylkie.git /var/lib/pandora-zero/git/sylkie >> $LOGFILE 2>&1
+git clone https://github.com/dlrobertson/sylkie.git /var/lib/pandora-zero/git/sylkie >> $LOGFILE 2>&1
 if [[ -e "/var/lib/pandora-zero/git/sylkie" ]]
 then
         echo -e $STATUS_OK
