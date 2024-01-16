@@ -752,7 +752,7 @@ fi
 echo -n "|>| Generating SSH keys "
 rm /var/lib/pandora-zero/certs/localhost/sshkey* > /dev/null 2>&1
 ssh-keygen -t rsa -f /var/lib/pandora-zero/certs/localhost/sshkey -q -N "" -C 'kali@localhost' > /dev/null 2>&1
-mkdir /home/kali/.ssh
+mkdir /home/kali/.ssh > /dev/null 2>&1
 chown kali: /home/kali/.ssh
 cat /var/lib/pandora-zero/certs/localhost/sshkey.pub > /home/kali/.ssh/authorized_keys
 chown kali: /home/kali/.ssh/authorized_keys
