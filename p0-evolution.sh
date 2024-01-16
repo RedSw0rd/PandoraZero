@@ -306,6 +306,15 @@ else
         echo -e $STATUS_KO
 fi
 
+echo -n "--> Wacker "
+git clone https://github.com/blunderbuss-wctf/wacker.git /var/lib/pandora-zero/git/wacker >> $LOGFILE 2>&1
+if [[ -e "/var/lib/pandora-zero/git/wacker" ]]
+then
+        echo -e $STATUS_OK
+else
+        echo -e $STATUS_KO
+fi
+
 echo -n "--> Wpspin "
 git clone https://github.com/drygdryg/wpspin /var/lib/pandora-zero/git/wpspin >> $LOGFILE 2>&1
 if [[ -e "/var/lib/pandora-zero/git/wpspin" ]]
@@ -386,6 +395,20 @@ else
         echo "|W| Compilation failed ..."
 fi
 
+echo -n "|>| Compiling Wacker "
+cd /var/lib/pandora-zero/git/wacker
+cp defconfig wpa_supplicant-2.10/wpa_supplicant/.config
+git apply wpa_supplicant.patch >> $LOGFILE 2>&1
+cd wpa_supplicant-2.10/wpa_supplicant
+make -j4 >> $LOGFILE 2>&1
+if [[ -e "/var/lib/pandora-zero/git/wacker/wpa_supplicant-2.10/wpa_supplicant/wpa_supplicant" ]]
+then
+        echo -e $STATUS_OK
+else
+        echo -e $STATUS_KO
+        echo "|W| Compilation failed ..."
+fi
+
 
 ##################################################################
 # CONFIG FILES
@@ -410,7 +433,7 @@ cp /var/lib/pandora-zero/install/dnschef/dnschef.ini /var/lib/pandora-zero/confi
 cp /var/lib/pandora-zero/install/dhclient/dhclient.conf /var/lib/pandora-zero/config/
 #
 cp /var/lib/pandora-zero/install/db/wps-pin-db.txt /var/lib/pandora-zero/db/
-#
+# FIX FOR DUMP1090
 mkdir /run/dump1090-mutability
 
 # DNSMASQ
