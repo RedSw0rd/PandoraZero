@@ -15,9 +15,9 @@ libapache2-mod-php
 bluetooth
 bluez-tools
 libbluetooth-dev
-ffmpeg
 libnl-3-dev
 libnl-genl-3-dev
+ffmpeg
 sqlite3
 git
 dos2unix 
