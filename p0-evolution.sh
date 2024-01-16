@@ -395,6 +395,22 @@ else
         echo "|W| Compilation failed ..."
 fi
 
+#
+echo -n "|>| Compiling sylkie "
+cd /var/lib/pandora-zero/git/sylkie
+mkdir -p ./build
+cd ./build
+cmake -DCMAKE_BUILD_TYPE=Release -DENABLE_JSON=OFF -DENABLE_SECCOMP=OFF ..
+make
+if [[ -e "/var/lib/pandora-zero/git/sylkie/build/sylkie" ]]
+then
+        echo -e $STATUS_OK
+else
+        echo -e $STATUS_KO
+        echo "|W| Compilation failed ..."
+fi
+
+#
 echo -n "|>| Compiling Wacker "
 cd /var/lib/pandora-zero/git/wacker
 cp defconfig wpa_supplicant-2.10/wpa_supplicant/.config
