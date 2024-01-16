@@ -400,8 +400,8 @@ echo -n "|>| Compiling sylkie "
 cd /var/lib/pandora-zero/git/sylkie
 mkdir -p ./build
 cd ./build
-cmake -DCMAKE_BUILD_TYPE=Release -DENABLE_JSON=OFF -DENABLE_SECCOMP=OFF ..
-make
+cmake -DCMAKE_BUILD_TYPE=Release -DENABLE_JSON=OFF -DENABLE_SECCOMP=OFF .. >> $LOGFILE 2>&1
+make >> $LOGFILE 2>&1
 if [[ -e "/var/lib/pandora-zero/git/sylkie/build/sylkie" ]]
 then
         echo -e $STATUS_OK
