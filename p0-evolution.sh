@@ -207,9 +207,18 @@ fi
 echo "|+| Cloning some GIT "
 echo "$(date +"%d/%m/%y %H:%M:%S") CLONING" >> $LOGFILE
 
-echo -n "--> Airpwn-ng "
-git clone https://github.com/ICSec/airpwn-ng.git /var/lib/pandora-zero/git/airpwn-ng >> $LOGFILE 2>&1
-if [[ -e "/var/lib/pandora-zero/git/airpwn-ng" ]]
+#echo -n "--> Airpwn-ng "
+#git clone https://github.com/ICSec/airpwn-ng.git /var/lib/pandora-zero/git/airpwn-ng >> $LOGFILE 2>&1
+#if [[ -e "/var/lib/pandora-zero/git/airpwn-ng" ]]
+#then
+#        echo -e $STATUS_OK
+#else
+#        echo -e $STATUS_KO
+#fi
+
+echo -n "--> AppleJuice "
+git clone https://github.com/ECTO-1A/AppleJuice /var/lib/pandora-zero/git/AppleJuice >> $LOGFILE 2>&1
+if [[ -e "/var/lib/pandora-zero/git/AppleJuice" ]]
 then
         echo -e $STATUS_OK
 else
@@ -243,23 +252,23 @@ else
         echo -e $STATUS_KO
 fi
 
-echo -n "--> Impacket "
-git clone https://github.com/SecureAuthCorp/impacket /var/lib/pandora-zero/git/impacket >> $LOGFILE 2>&1
-if [[ -e "/var/lib/pandora-zero/git/impacket" ]]
-then
-        echo -e $STATUS_OK
-else
-        echo -e $STATUS_KO
-fi
+#echo -n "--> Impacket "
+#git clone https://github.com/SecureAuthCorp/impacket /var/lib/pandora-zero/git/impacket >> $LOGFILE 2>&1
+#if [[ -e "/var/lib/pandora-zero/git/impacket" ]]
+#then
+#        echo -e $STATUS_OK
+#else
+#        echo -e $STATUS_KO
+#fi
 
-echo -n "--> Jackit "
-git clone https://github.com/insecurityofthings/jackit /var/lib/pandora-zero/git/jackit >> $LOGFILE 2>&1
-if [[ -e "/var/lib/pandora-zero/git/jackit" ]]
-then
-        echo -e $STATUS_OK
-else
-        echo -e $STATUS_KO
-fi
+#echo -n "--> Jackit "
+#git clone https://github.com/insecurityofthings/jackit /var/lib/pandora-zero/git/jackit >> $LOGFILE 2>&1
+#if [[ -e "/var/lib/pandora-zero/git/jackit" ]]
+#then
+#        echo -e $STATUS_OK
+#else
+#        echo -e $STATUS_KO
+#fi
 
 echo -n "--> Libcrafter "
 git clone https://github.com/pellegre/libcrafter /var/lib/pandora-zero/git/libcrafter >> $LOGFILE 2>&1
@@ -331,21 +340,22 @@ fi
 echo -n "|>| Installing python3 modules (long step) "
 echo "$(date +"%d/%m/%y %H:%M:%S") PYTHON MODULES INSTALLATION" >> $LOGFILE
 #pip3 install pymetasploit3 >> $LOGFILE 2>&1
-pip3 install -r /var/lib/pandora-zero/git/impacket/requirements.txt >> $LOGFILE 2>&1
+# pip3 install -r /var/lib/pandora-zero/git/impacket/requirements.txt >> $LOGFILE 2>&1
 pip3 install -r /var/lib/pandora-zero/git/mitm6/requirements.txt >> $LOGFILE 2>&1
 # requiered by mitm6
 pip3 install service_identity >> $LOGFILE 2>&1
 # requiered by ntlmrelay
 pip3 install pyasn1-modules >> $LOGFILE 2>&1
-#
-cd /var/lib/pandora-zero/git/impacket/
-python3 setup.py install >> $LOGFILE 2>&1
-echo -e $STATUS_OK
 
-echo -n "|>| Installing ruby gem "
-echo "$(date +"%d/%m/%y %H:%M:%S") RUBY GEMS INSTALLATION" >> $LOGFILE
-gem install msfrpc-client >> $LOGFILE 2>&1
-echo -e $STATUS_OK
+#
+#cd /var/lib/pandora-zero/git/impacket/
+#python3 setup.py install >> $LOGFILE 2>&1
+#echo -e $STATUS_OK
+
+#echo -n "|>| Installing ruby gem "
+#echo "$(date +"%d/%m/%y %H:%M:%S") RUBY GEMS INSTALLATION" >> $LOGFILE
+#gem install msfrpc-client >> $LOGFILE 2>&1
+#echo -e $STATUS_OK
 
 ##################################################################
 # COMPILE
@@ -395,7 +405,7 @@ else
         echo "|W| Compilation failed ..."
 fi
 
-#
+# SYLKIE
 echo -n "|>| Compiling sylkie "
 cd /var/lib/pandora-zero/git/sylkie
 mkdir -p ./build
@@ -410,7 +420,7 @@ else
         echo "|W| Compilation failed ..."
 fi
 
-#
+# WACKER
 echo -n "|>| Compiling Wacker "
 cd /var/lib/pandora-zero/git/wacker
 cp defconfig wpa_supplicant-2.10/wpa_supplicant/.config
@@ -424,6 +434,22 @@ else
         echo -e $STATUS_KO
         echo "|W| Compilation failed ..."
 fi
+
+# HCXDUMPTOOL
+echo -n "|>| Compiling Hcxdumptool v6.2.9 "
+cd /var/lib/pandora-zero/src/
+unzip hcxdumptool-6.2.9.zip
+cd hcxdumptool-6.2.9
+make >> $LOGFILE 2>&1
+if [[ -e "/var/lib/pandora-zero/src/hcxdumptool-6.2.9/hcxdumptool" ]]
+then
+        echo -e $STATUS_OK
+else
+        echo -e $STATUS_KO
+        echo "|W| Compilation failed ..."
+fi
+
+
 
 
 ##################################################################
