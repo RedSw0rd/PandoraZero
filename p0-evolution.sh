@@ -936,9 +936,11 @@ fi
 # SQLITE DATABASE
 ##################################################################
 echo -ne "|>| Installing DB "
+php -f $sql_init_scripts/sqlite-init-custom.php
 php -f $sql_init_scripts/sqlite-init-global.php
-php -f $sql_init_scripts/sqlite-init-xlist.php
+php -f $sql_init_scripts/sqlite-init-netman.php
 php -f $sql_init_scripts/sqlite-init-taskman.php
+php -f $sql_init_scripts/sqlite-init-xlist.php
 
 ##################################################################
 # MISC
