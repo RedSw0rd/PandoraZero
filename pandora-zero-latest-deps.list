@@ -12,6 +12,11 @@ php-sqlite3
 php-curl
 php-xml
 libapache2-mod-php
+ruby-msfrpc-client
+python3-pydbus
+python3-pcapy
+python3-impacket
+impacket-scripts
 bluetooth
 bluez-tools
 libbluetooth-dev
@@ -47,6 +52,9 @@ gr-gsm
 ubertooth-firmware
 ubertooth
 crackle
+spooftooph
+blue-hydra
+redfang
 nmap
 amap
 arp-scan
@@ -80,3 +88,4 @@ hydra
 dnschef
 gpsd
 gpsd-clients
+open-iscsi
