@@ -22,6 +22,7 @@ bluez-tools
 libbluetooth-dev
 libnl-3-dev
 libnl-genl-3-dev
+libssl-dev
 ffmpeg
 sqlite3
 git
