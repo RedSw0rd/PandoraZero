@@ -243,7 +243,6 @@ else
         echo -e $STATUS_KO
 fi
 
-
 echo -n "--> Carwhisperer "
 git clone https://github.com/yesimxev/carwhisperer-0.2.git /var/lib/pandora-zero/git/carwhisperer >> $LOGFILE 2>&1
 if [[ -e "/var/lib/pandora-zero/git/carwhisperer" ]]
@@ -252,9 +251,6 @@ then
 else
         echo -e $STATUS_KO
 fi
-
-
-
 
 echo -n "--> fm_transmitter "
 git clone https://github.com/markondej/fm_transmitter /var/lib/pandora-zero/git/fm_transmitter >> $LOGFILE 2>&1
@@ -451,7 +447,7 @@ fi
 # HCXDUMPTOOL
 echo -n "|>| Compiling Hcxdumptool v6.2.9 "
 cd /var/lib/pandora-zero/src/
-unzip hcxdumptool-6.2.9.zip
+unzip hcxdumptool-6.2.9.zip >/dev/null
 cd hcxdumptool-6.2.9
 make >> $LOGFILE 2>&1
 if [[ -e "/var/lib/pandora-zero/src/hcxdumptool-6.2.9/hcxdumptool" ]]
