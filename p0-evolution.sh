@@ -647,16 +647,11 @@ else
 fi
 
 #
-echo -n "|>| Modifying /etc/modules file "
-echo "i2c-dev" | sudo tee -a /etc/modules
-echo -e $STATUS_OK
-
-#
 echo -n "|>| Modifying /etc/network/interfaces file "
 cp /etc/network/interfaces /var/lib/pandora-zero/install/backup/interfaces
 mv /etc/network/interfaces /etc/network/interfaces.ORIGINAL
 cp /var/lib/pandora-zero/install/interfaces/interfaces /etc/network/interfaces
-cp /var/lib/pandora-zero/install/interfaces/pan0 /etc/network/interfaces.d/
+cp /var/lib/pandora-zero/install/interfaces/pan0-admin /etc/network/interfaces.d/
 cp /var/lib/pandora-zero/install/interfaces/wlan0-admin /etc/network/interfaces.d/
 if [[ -e "/etc/network/interfaces" ]]
 then
@@ -716,7 +711,7 @@ fi
 
 echo -n "|>| Copying Apache ports configuration files "
 cp /var/lib/pandora-zero/install/apache/port-dnsspoof.conf /var/lib/pandora-zero/config/
-cp /var/lib/pandora-zero/install/apache/port-evilportal.conf /var/lib/pandora-zero/config/
+#cp /var/lib/pandora-zero/install/apache/port-evilportal.conf /var/lib/pandora-zero/config/
 cp /var/lib/pandora-zero/install/apache/port-rogueap.conf /var/lib/pandora-zero/config/
 if [[ -e "/var/lib/pandora-zero/config/port-rogueap.conf" ]]
 then
