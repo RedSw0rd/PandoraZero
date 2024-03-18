@@ -526,6 +526,41 @@ else
         echo -e $STATUS_KO
 fi
 
+# PLACING DNSSPOOF CONFIG FILE
+echo -n "|>| Copying dnsspoof configuration files "
+cp /var/lib/pandora-zero/install/dnsspoof/* /var/lib/pandora-zero/config/
+if [[ -e "/var/lib/pandora-zero/config/dnsspoof-lan.hosts" ]]
+then
+        echo -e $STATUS_OK
+else
+        echo -e $STATUS_KO
+fi
+
+# PLACING KISMET CONFIG FILE
+echo -n "|>| Copying kismet configuration files "
+cp -R /var/lib/pandora-zero/install/kismet /var/lib/pandora-zero/config/
+if [[ -e "/var/lib/pandora-zero/config/dnsspoof-lan.hosts" ]]
+then
+        echo -e $STATUS_OK
+else
+        echo -e $STATUS_KO
+fi
+
+# PLACING EVILSTORE CONFIG FILE
+echo -n "|>| Copying evilstore configuration files "
+cp /var/lib/pandora-zero/install/evilstore/* /var/lib/pandora-zero/config/
+if [[ -e "/var/lib/pandora-zero/config/evilstore-http.conf" ]]
+then
+        echo -e $STATUS_OK
+else
+        echo -e $STATUS_KO
+fi
+
+
+##################################################################
+# SYSTEM CONFIG FILES
+##################################################################
+
 # BLUETOOTH PAN
 echo -n "|>| Copying bluetooth files "
 cp /var/lib/pandora-zero/install/systemd/pan0.netdev /etc/systemd/network/pan0.netdev
@@ -719,16 +754,6 @@ fi
 echo -n "|>| Copying sudo file "
 cp /var/lib/pandora-zero/install/sudo/p0-www-root /etc/sudoers.d/p0-www-root
 if [[ -e "/etc/sudoers.d/p0-www-root" ]]
-then
-        echo -e $STATUS_OK
-else
-        echo -e $STATUS_KO
-fi
-
-# PLACING DNSSPOOF CONFIG FILE
-echo -n "|>| Copying dnsspoof configuration files "
-cp /var/lib/pandora-zero/install/dnsspoof/* /var/lib/pandora-zero/config/
-if [[ -e "/var/lib/pandora-zero/config/dnsspoof-lan.hosts" ]]
 then
         echo -e $STATUS_OK
 else
