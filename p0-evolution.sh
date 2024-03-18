@@ -376,7 +376,7 @@ pip3 install pyasn1-modules >> $LOGFILE 2>&1
 echo "$(date +"%d/%m/%y %H:%M:%S") COMPILING " >> $LOGFILE
 
 # LIBCRAFTER
-echo -n "|>| Compiling libcrafter (very long step) "
+echo -en "\n|>| Compiling libcrafter (very long step) "
 cd /var/lib/pandora-zero/git/libcrafter/libcrafter
 ./autogen.sh >> $LOGFILE 2>&1
 make >> $LOGFILE 2>&1
