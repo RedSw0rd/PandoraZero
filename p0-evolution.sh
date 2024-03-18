@@ -243,6 +243,19 @@ else
         echo -e $STATUS_KO
 fi
 
+
+echo -n "--> Carwhisperer "
+git clone https://github.com/yesimxev/carwhisperer-0.2.git /var/lib/pandora-zero/git/carwhisperer >> $LOGFILE 2>&1
+if [[ -e "/var/lib/pandora-zero/git/carwhisperer" ]]
+then
+        echo -e $STATUS_OK
+else
+        echo -e $STATUS_KO
+fi
+
+
+
+
 echo -n "--> fm_transmitter "
 git clone https://github.com/markondej/fm_transmitter /var/lib/pandora-zero/git/fm_transmitter >> $LOGFILE 2>&1
 if [[ -e "/var/lib/pandora-zero/git/fm_transmitter" ]]
@@ -449,7 +462,17 @@ else
         echo "|W| Compilation failed ..."
 fi
 
-
+# 
+echo -n "|>| Compiling Carwhisperer "
+cd /var/lib/pandora-zero/git/carwhisperer
+make >> $LOGFILE 2>&1
+if [[ -e "/var/lib/pandora-zero/git/carwhisperer/carwhisperer" ]]
+then
+        echo -e $STATUS_OK
+else
+        echo -e $STATUS_KO
+        echo "|W| Compilation failed ..."
+fi
 
 
 ##################################################################
