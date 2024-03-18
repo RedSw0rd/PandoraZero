@@ -111,6 +111,7 @@ then
 fi
 
 # DOWNLOAD ARCHIVE
+rm pandora-zero-latest.tar.gz > /dev/null 2>&1
 echo "$(date +"%d/%m/%y %H:%M:%S") DOWNLOADING ARCHIVE FILE" >> $LOGFILE
 echo -n "|>| Downloading Pandora Zero Archive "
 wget $PZ_ARCHIVE_URL > /dev/null 2>&1
@@ -134,6 +135,7 @@ else
 fi
 
 echo -n "|>| Downloading checksum "
+rm pandora-zero-latest.sum > /dev/null 2>&1
 wget $PZ_CHECKSUM_URL > /dev/null 2>&1
 if [[ -e "pandora-zero-latest.sum" ]]
 then
