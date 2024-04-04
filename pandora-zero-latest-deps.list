@@ -13,6 +13,7 @@ php-curl
 php-xml
 libapache2-mod-php
 ruby-msfrpc-client
+python3-bluepy
 python3-pydbus
 python3-pcapy
 python3-impacket
