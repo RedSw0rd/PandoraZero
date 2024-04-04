@@ -10,7 +10,7 @@ sql_init_scripts="/var/lib/pandora-zero/install/sqlite-init-scripts/"
 STATUS_OK="\r\t\t\t\t\t\t\t\t\t\t\t      [ \033[0;92mOK\033[0;37m ]"
 STATUS_KO="\r\t\t\t\t\t\t\t\t\t\t\t      [ \033[0;91mK0\033[0;37m ]"
 T=$(date +"%d%m%y-%s")
-LOGFILE="p0-evolution-$T.log"
+LOGFILE="/root/p0-evolution-$T.log"
 
 # BANNER
 echo -e " \033[0;97m"
@@ -236,14 +236,14 @@ else
         echo -e $STATUS_KO
 fi
 
-echo -n "--> Bluepy "
-git clone https://github.com/IanHarvey/bluepy.git /var/lib/pandora-zero/git/bluepy >> $LOGFILE 2>&1
-if [[ -e "/var/lib/pandora-zero/git/bluepy" ]]
-then
-        echo -e $STATUS_OK
-else
-        echo -e $STATUS_KO
-fi
+#echo -n "--> Bluepy "
+#git clone https://github.com/IanHarvey/bluepy.git /var/lib/pandora-zero/git/bluepy >> $LOGFILE 2>&1
+#if [[ -e "/var/lib/pandora-zero/git/bluepy" ]]
+#then
+#        echo -e $STATUS_OK
+#else
+#        echo -e $STATUS_KO
+#fi
 
 echo -n "--> Carwhisperer "
 git clone https://github.com/yesimxev/carwhisperer-0.2.git /var/lib/pandora-zero/git/carwhisperer >> $LOGFILE 2>&1
@@ -350,7 +350,7 @@ fi
 ##################################################################
 echo -n "|>| Installing python3 modules (long step) "
 echo "$(date +"%d/%m/%y %H:%M:%S") PYTHON MODULES INSTALLATION" >> $LOGFILE
-#pip3 install pymetasploit3 >> $LOGFILE 2>&1
+# pip3 install pymetasploit3 >> $LOGFILE 2>&1
 # pip3 install -r /var/lib/pandora-zero/git/impacket/requirements.txt >> $LOGFILE 2>&1
 pip3 install -r /var/lib/pandora-zero/git/mitm6/requirements.txt >> $LOGFILE 2>&1
 # requiered by mitm6
@@ -898,7 +898,6 @@ then
 else
         echo -e $STATUS_KO
 fi
-
 
 #echo "|+| Reloading some daemons "
 #echo -n "--> apache2 "
