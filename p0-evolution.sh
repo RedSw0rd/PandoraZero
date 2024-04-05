@@ -606,7 +606,8 @@ else
 fi
 
 echo -n "|>| Copying machine-info file "
-cp /var/lib/pandora-zero/install/bluetooth/machine-info /etc/machine-info
+#cp /var/lib/pandora-zero/install/bluetooth/machine-info /etc/machine-info
+echo "PRETTY_HOSTNAME=\"PZero-$(date|md5sum|head -c 5)\"" > /etc/machine-info
 if [[ -e "/etc/machine-info" ]]
 then
         echo -e $STATUS_OK
