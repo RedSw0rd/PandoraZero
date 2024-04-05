@@ -227,14 +227,14 @@ else
         echo -e $STATUS_KO
 fi
 
-echo -n "--> Blueborndetection "
-git clone https://github.com/mjancek/BlueborneDetection /var/lib/pandora-zero/git/BlueborneDetection >> $LOGFILE 2>&1
-if [[ -e "/var/lib/pandora-zero/git/BlueborneDetection" ]]
-then
-        echo -e $STATUS_OK
-else
-        echo -e $STATUS_KO
-fi
+#echo -n "--> Blueborndetection "
+#git clone https://github.com/mjancek/BlueborneDetection /var/lib/pandora-zero/git/BlueborneDetection >> $LOGFILE 2>&1
+#if [[ -e "/var/lib/pandora-zero/git/BlueborneDetection" ]]
+#then
+#        echo -e $STATUS_OK
+#else
+#        echo -e $STATUS_KO
+#fi
 
 #echo -n "--> Bluepy "
 #git clone https://github.com/IanHarvey/bluepy.git /var/lib/pandora-zero/git/bluepy >> $LOGFILE 2>&1
@@ -390,8 +390,8 @@ echo -e $STATUS_OK
 
 # BLUEBORN SCANNER
 echo -n "|>| Compiling BlueborneDetection "
-cd /var/lib/pandora-zero/git/BlueborneDetection
-gcc detectBlueborne.o -o detectBlueborne -lbluetooth >> $LOGFILE 2>&1
+cd /var/lib/pandora-zero/exploits/Blueborne/scanner
+gcc detectBlueborne.c -o detectBlueborne -lbluetooth >> $LOGFILE 2>&1
 echo -e $STATUS_OK
 
 # DOUBLEDIRECT
@@ -539,8 +539,7 @@ fi
 
 echo -n "|>| Copying hostapd configuration files "
 cp /var/lib/pandora-zero/install/hostapd/* /var/lib/pandora-zero/config/
-cp /var/lib/pandora-zero/install/hostapd/hostapd-admin.conf /etc/hostapd/hostapd.conf
-if [[ -e "/etc/hostapd/hostapd.conf" ]]
+if [[ -e "/var/lib/pandora-zero/config/hostapd-admin.conf" ]]
 then
         echo -e $STATUS_OK
 else
