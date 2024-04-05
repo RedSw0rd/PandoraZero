@@ -218,14 +218,14 @@ echo "$(date +"%d/%m/%y %H:%M:%S") CLONING" >> $LOGFILE
 #        echo -e $STATUS_KO
 #fi
 
-echo -n "--> AppleJuice "
-git clone https://github.com/ECTO-1A/AppleJuice /var/lib/pandora-zero/git/AppleJuice >> $LOGFILE 2>&1
-if [[ -e "/var/lib/pandora-zero/git/AppleJuice" ]]
-then
-        echo -e $STATUS_OK
-else
-        echo -e $STATUS_KO
-fi
+#echo -n "--> AppleJuice "
+#git clone https://github.com/ECTO-1A/AppleJuice /var/lib/pandora-zero/git/AppleJuice >> $LOGFILE 2>&1
+#if [[ -e "/var/lib/pandora-zero/git/AppleJuice" ]]
+#then
+#        echo -e $STATUS_OK
+#else
+#        echo -e $STATUS_KO
+#fi
 
 #echo -n "--> Blueborndetection "
 #git clone https://github.com/mjancek/BlueborneDetection /var/lib/pandora-zero/git/BlueborneDetection >> $LOGFILE 2>&1
@@ -299,14 +299,14 @@ else
         echo -e $STATUS_KO
 fi
 
-echo -n "--> PRET "
-git clone https://github.com/RUB-NDS/PRET.git /var/lib/pandora-zero/git/PRET >> $LOGFILE 2>&1
-if [[ -e "/var/lib/pandora-zero/git/PRET" ]]
-then
-        echo -e $STATUS_OK
-else
-        echo -e $STATUS_KO
-fi
+#echo -n "--> PRET "
+#git clone https://github.com/RUB-NDS/PRET.git /var/lib/pandora-zero/git/PRET >> $LOGFILE 2>&1
+#if [[ -e "/var/lib/pandora-zero/git/PRET" ]]
+#then
+#        echo -e $STATUS_OK
+#else
+#        echo -e $STATUS_KO
+#fi
 
 echo -n "--> Rpitx "
 git clone https://github.com/F5OEO/rpitx /var/lib/pandora-zero/git/rpitx >> $LOGFILE 2>&1
