@@ -254,14 +254,14 @@ else
         echo -e $STATUS_KO
 fi
 
-echo -n "--> fm_transmitter "
-git clone https://github.com/markondej/fm_transmitter /var/lib/pandora-zero/git/fm_transmitter >> $LOGFILE 2>&1
-if [[ -e "/var/lib/pandora-zero/git/fm_transmitter" ]]
-then
-        echo -e $STATUS_OK
-else
-        echo -e $STATUS_KO
-fi
+#echo -n "--> fm_transmitter "
+#git clone https://github.com/markondej/fm_transmitter /var/lib/pandora-zero/git/fm_transmitter >> $LOGFILE 2>&1
+#if [[ -e "/var/lib/pandora-zero/git/fm_transmitter" ]]
+#then
+#        echo -e $STATUS_OK
+#else
+#        echo -e $STATUS_KO
+#fi
 
 #echo -n "--> Impacket "
 #git clone https://github.com/SecureAuthCorp/impacket /var/lib/pandora-zero/git/impacket >> $LOGFILE 2>&1
@@ -308,15 +308,6 @@ fi
 #        echo -e $STATUS_KO
 #fi
 
-echo -n "--> Rpitx "
-git clone https://github.com/F5OEO/rpitx /var/lib/pandora-zero/git/rpitx >> $LOGFILE 2>&1
-if [[ -e "/var/lib/pandora-zero/git/rpitx" ]]
-then
-        echo -e $STATUS_OK
-else
-        echo -e $STATUS_KO
-fi
-
 echo -n "--> Sylkie "
 git clone https://github.com/dlrobertson/sylkie.git /var/lib/pandora-zero/git/sylkie >> $LOGFILE 2>&1
 if [[ -e "/var/lib/pandora-zero/git/sylkie" ]]
@@ -344,29 +335,16 @@ else
         echo -e $STATUS_KO
 fi
 
-
 ##################################################################
 # PYTHON / RUBY 
 ##################################################################
 echo -n "|>| Installing python3 modules (long step) "
 echo "$(date +"%d/%m/%y %H:%M:%S") PYTHON MODULES INSTALLATION" >> $LOGFILE
-# pip3 install pymetasploit3 >> $LOGFILE 2>&1
-# pip3 install -r /var/lib/pandora-zero/git/impacket/requirements.txt >> $LOGFILE 2>&1
 pip3 install -r /var/lib/pandora-zero/git/mitm6/requirements.txt >> $LOGFILE 2>&1
 # requiered by mitm6
 pip3 install service_identity >> $LOGFILE 2>&1
 # requiered by ntlmrelay
 pip3 install pyasn1-modules >> $LOGFILE 2>&1
-
-#
-#cd /var/lib/pandora-zero/git/impacket/
-#python3 setup.py install >> $LOGFILE 2>&1
-#echo -e $STATUS_OK
-
-#echo -n "|>| Installing ruby gem "
-#echo "$(date +"%d/%m/%y %H:%M:%S") RUBY GEMS INSTALLATION" >> $LOGFILE
-#gem install msfrpc-client >> $LOGFILE 2>&1
-#echo -e $STATUS_OK
 
 ##################################################################
 # COMPILE
@@ -383,16 +361,29 @@ ldconfig
 echo -e $STATUS_OK
 
 # FM_TRANSMITTER
-echo -n "|>| Compiling fm_transmitter "
-cd /var/lib/pandora-zero/git/fm_transmitter
-make >> $LOGFILE 2>&1
-echo -e $STATUS_OK
+#echo -n "|>| Compiling fm_transmitter "
+#cd /var/lib/pandora-zero/git/fm_transmitter
+#make >> $LOGFILE 2>&1
+#echo -e $STATUS_OK
+#if [[ -e "/var/lib/pandora-zero/git/fm_transmitter/fm_transmitter" ]]
+#then
+#        echo -e $STATUS_OK
+#else
+#        echo -e $STATUS_KO
+#        echo "|W| Compilation failed ..."
+#fi
 
 # BLUEBORN SCANNER
 echo -n "|>| Compiling BlueborneDetection "
 cd /var/lib/pandora-zero/exploits/Blueborne/scanner
 gcc detectBlueborne.c -o detectBlueborne -lbluetooth >> $LOGFILE 2>&1
-echo -e $STATUS_OK
+if [[ -e "/var/lib/pandora-zero/exploits/Blueborne/scanner/detectBlueborne" ]]
+then
+        echo -e $STATUS_OK
+else
+        echo -e $STATUS_KO
+        echo "|W| Compilation failed ..."
+fi
 
 # DOUBLEDIRECT
 echo -n "|>| Compiling doubledirect "
@@ -409,6 +400,18 @@ fi
 echo -n "|>| Compiling reset.c "
 gcc -o /var/lib/pandora-zero/binary/reset /var/lib/pandora-zero/src/reset.c 2>/dev/null
 if [[ -e "/var/lib/pandora-zero/binary/reset" ]]
+then
+        echo -e $STATUS_OK
+else
+        echo -e $STATUS_KO
+        echo "|W| Compilation failed ..."
+fi
+
+# RPITX
+echo -n "|>| Compiling Rpitx "
+cd /var/lib/pandora-zero/src/rpitx
+./install.sh >> $LOGFILE 2>&1
+if [[ -e "/var/lib/pandora-zero/src/rpitx/rpitx" ]]
 then
         echo -e $STATUS_OK
 else
