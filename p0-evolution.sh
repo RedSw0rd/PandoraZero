@@ -716,7 +716,6 @@ fi
 
 echo -n "|>| Copying Apache ports configuration files "
 cp /var/lib/pandora-zero/install/apache/port-dnsspoof.conf /var/lib/pandora-zero/config/
-#cp /var/lib/pandora-zero/install/apache/port-evilportal.conf /var/lib/pandora-zero/config/
 cp /var/lib/pandora-zero/install/apache/port-rogueap.conf /var/lib/pandora-zero/config/
 if [[ -e "/var/lib/pandora-zero/config/port-rogueap.conf" ]]
 then
@@ -724,6 +723,11 @@ then
 else
         echo -e $STATUS_KO
 fi
+
+# REMOVING DEFAULT APACHE CONFIG FILE
+echo -n "|>| Removing Apache 000-default.conf file "
+rm /etc/apache2/sites-enabled/000-default.conf
+echo -e $STATUS_OK
 
 #
 echo -n "|>| Modifying /lib/systemd/system/apache2.service file "
