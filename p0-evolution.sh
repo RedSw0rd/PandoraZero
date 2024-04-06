@@ -479,7 +479,7 @@ fi
 #
 cd /root
 
-#echo -n "|>| Copying configurations files "
+echo -n "|>| Copying configurations files "
 #cp /var/lib/pandora-zero/install/config/apps/* /var/lib/pandora-zero/config/apps/
 #cp /var/lib/pandora-zero/install/config/sys/* /var/lib/pandora-zero/config/sys/
 #if [[ -e "/var/lib/pandora-zero/config/apps/hostapd-mana.conf" ]]
