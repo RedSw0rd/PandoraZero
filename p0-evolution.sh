@@ -529,10 +529,15 @@ fi
 echo -n "|>| Installing hostapd files "
 cp /etc/init.d/hostapd /var/lib/pandora-zero/install/backup/hostapd_init
 cp /etc/default/hostapd /var/lib/pandora-zero/install/backup/hostapd_default
+cp /lib/systemd/system/hostapd.service /var/lib/pandora-zero/install/backup/hostapd.service
+
 mv /etc/init.d/hostapd /etc/init.d/hostapd.ORIGINAL
 mv /etc/default/hostapd /etc/default/hostapd.ORIGINAL
+
 cp /var/lib/pandora-zero/install/init.d/hostapd /etc/init.d/hostapd
 cp /var/lib/pandora-zero/install/default/hostapd /etc/default/hostapd
+cp /var/lib/pandora-zero/install/service/hostapd.service /lib/systemd/system/hostapd.service
+
 if [ -e "/etc/init.d/hostapd" ] && [ -e "/etc/default/hostapd" ]
 then
         echo -e $STATUS_OK
@@ -854,6 +859,7 @@ systemctl enable apache2 >> $LOGFILE 2>&1
 #update-rc.d apache2 enable >> $LOGFILE 2>&1
 #update-rc.d dnsmasq enable >> $LOGFILE 2>&1
 systemctl unmask hostapd >> $LOGFILE 2>&1
+systemctl enable hostapd >> $LOGFILE 2>&1
 # update-rc.d hostapd enable
 echo -e $STATUS_OK
 
