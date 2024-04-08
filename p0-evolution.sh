@@ -854,13 +854,11 @@ systemctl enable hciuart >> $LOGFILE 2>&1
 systemctl enable bluetooth >> $LOGFILE 2>&1
 systemctl enable systemd-networkd >> $LOGFILE 2>&1
 systemctl enable bt-agent >> $LOGFILE 2>&1
+systemctl enable bt-network >> $LOGFILE 2>&1
 systemctl enable apache2 >> $LOGFILE 2>&1
 #systemctl enable dnsmasq >> $LOGFILE 2>&1
-#update-rc.d apache2 enable >> $LOGFILE 2>&1
-#update-rc.d dnsmasq enable >> $LOGFILE 2>&1
 systemctl unmask hostapd >> $LOGFILE 2>&1
 systemctl enable hostapd >> $LOGFILE 2>&1
-# update-rc.d hostapd enable
 echo -e $STATUS_OK
 
 ##################################################################
